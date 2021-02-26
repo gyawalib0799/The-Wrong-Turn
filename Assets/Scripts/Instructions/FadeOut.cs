@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,14 +18,21 @@ public class FadeOut : MonoBehaviour
      
 
     [SerializeField] float fadeTime = 2;
+    [SerializeField] float jumpScareTime = 9;
 
     float elapsedTime = 0;
     float buttonElapsedTime = 0;
+    float jumpScareElapsedTime = 0;
+   
 
     bool fadeStarted = false;
     bool readyButtonVisible = false;
+    bool jumpScareCountDownStarted = false;
 
     float alpha = 1;
+
+
+    public static Action onJumpScare;
 
 
     // Start is called before the first frame update
@@ -59,8 +67,33 @@ public class FadeOut : MonoBehaviour
                 instructions.color = new Color(instructions.color.r, instructions.color.g, instructions.color.b, alpha);
                 elapsedTime += Time.deltaTime;
             }
+            else
+            {
+
+                jumpScareCountDownStarted = true;
+             
+            }
+            Debug.Log("Alpha: " + alpha.ToString());
            
         }
+
+        if(jumpScareCountDownStarted)
+        {
+            if(jumpScareElapsedTime < jumpScareTime)
+            {
+                jumpScareElapsedTime += Time.deltaTime;
+                Debug.Log("Elapsed Time: " + elapsedTime.ToString());
+            }
+            else
+            {
+                if(onJumpScare != null)
+                {
+                    onJumpScare();
+                }
+            }
+        }
+       
+
 
     }
 

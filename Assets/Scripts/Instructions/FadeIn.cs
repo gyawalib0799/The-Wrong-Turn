@@ -22,10 +22,7 @@ public class FadeIn : MonoBehaviour
     void Start()
     {
         textMessage = GetComponent<TextMeshProUGUI>();
-        if(textMessage == null)
-        {
-            textMessage = GetComponentInChildren<TextMeshProUGUI>();
-        }
+     
         textMessage.color = new Color(textMessage.color.r, textMessage.color.b, textMessage.color.g, alpha);
        
 
