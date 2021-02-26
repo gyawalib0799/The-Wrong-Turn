@@ -5,9 +5,13 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class JumpScare : MonoBehaviour
 {
+    //allows setting how long the zombie appears on screen for in the inspector
     [SerializeField] float viewTime;
 
+    //keeps track of the amount of time the zombie is on screen
     float elapsedTime = 0;
+    
+    //can we see the zombie?
     bool zombieVisible = false;
    
     
@@ -15,6 +19,7 @@ public class JumpScare : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //upon script start we will hide the zombie and subscribe to the jumpscare action declared in the fadeout script
         gameObject.SetActive(false);
 
         FadeOut.onJumpScare += Scare;
@@ -25,12 +30,14 @@ public class JumpScare : MonoBehaviour
     {
         if(zombieVisible)
         {
+            //if zombie is visible we will make sure it only stays visible for specified time
             if(elapsedTime < viewTime)
             {
                 elapsedTime += Time.deltaTime;
             }
             else
             {
+                //once the time has passed we will make the zombie invisible again and load the next scene.
                 zombieVisible = false;
                 gameObject.SetActive(false);
                 LoadGame();
@@ -38,6 +45,7 @@ public class JumpScare : MonoBehaviour
         }
     }
 
+    //loads the next scene in the build index
     private void LoadGame()
     {
         int sceneNumber = SceneManager.GetActiveScene().buildIndex;
@@ -45,12 +53,12 @@ public class JumpScare : MonoBehaviour
         sceneNumber += 1;
 
         SceneManager.LoadScene(sceneNumber);
-
-        
+  
     }
 
     void Scare()
     {
+        //starts the jump scare, the sound is set to play on awake in the inspector and will start automatically
         gameObject.SetActive(true);
         zombieVisible = true;
     }
