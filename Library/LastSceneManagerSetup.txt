@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Creature_Rhinoceros/Scene/Demo_scene.unity
+- path: Assets/Horror parts/Fire/Fire Scene.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
