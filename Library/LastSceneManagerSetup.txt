@@ -1,5 +1,0 @@
-sceneSetups:
-- path: Assets/Horror parts/Fire/Fire Scene.unity
-  isLoaded: 1
-  isActive: 1
-  isSubScene: 0
