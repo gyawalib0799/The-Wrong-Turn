@@ -17,9 +17,9 @@ public class TaxiMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 movementVector = this.transform.up;
+        Vector3 movementVector = this.transform.forward;
 
-        this.rigid.AddForce(-movementVector * 1.0f);
+        this.rigid.AddForce(movementVector * 1.0f);
 
     }
 }
