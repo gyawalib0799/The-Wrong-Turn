@@ -8,8 +8,8 @@ public class Follow : MonoBehaviour
 
     public GameObject[] wayPoints;
     int curWP;
-    float rotSpeed = 0.6f;
-    float speed = 10.5f;
+    float rotSpeed = 1.4f;
+    float speed = 15.5f;
     float accuracyWP = 5.0f;
     
     // Start is called before the first frame update
