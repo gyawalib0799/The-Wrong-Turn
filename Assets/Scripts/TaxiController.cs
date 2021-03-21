@@ -19,6 +19,17 @@ public class TaxiController : MonoBehaviour
 
     LayerMask layerMask;
 
+    TurnEnum nextTurn;
+
+    Intersection currentIntersection;
+
+    GameObject intersection;
+
+    Rigidbody rb;
+
+    //This Action delegate will be raised when the car is entering the intersection
+    public static Action<TurnEnum> EnteringIntersection;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +42,10 @@ public class TaxiController : MonoBehaviour
         curWP = 1;
 
         layerMask = LayerMask.GetMask("Terrain");
+
+        rb = GetComponent<Rigidbody>();
+
+        
       
     }
 
@@ -47,6 +62,8 @@ public class TaxiController : MonoBehaviour
         }
 
         Vector3 direction = wayPoints[curWP].transform.position - transform.position;
+
+       
         this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotSpeed * Time.deltaTime);
         this.transform.Translate(0, 0, Time.deltaTime * speed);
 
@@ -58,16 +75,78 @@ public class TaxiController : MonoBehaviour
             transform.up -= (transform.up - hitInfo.normal) * 0.1f;
 
         }
-
-      //  this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotSpeed * Time.deltaTime);
-
-
-
-       // this.transform.Translate(0, 0, Time.deltaTime * speed);
+       
+     
 
 
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("Intersection"))
+        {
+            Debug.Log("------------Entering Intersection-------Ready for Turn");
 
+            currentIntersection = other.gameObject.GetComponent<Intersection>();
+
+            DisableColliders(other);
+
+            PickTurnDirection();
+
+        }
+    }
+
+
+    void PickTurnDirection()
+    {
+        if (currentIntersection.GetTurnCount() == 1)
+        {
+            currentPath = currentIntersection.GetPath(TurnEnum.STRAIGHT);
+            wayPoints = currentPath.GetComponentsInChildren<Transform>();
+
+            curWP = 1;
+
+            Debug.Log("Next Path: " + currentPath.gameObject.name);
+
+            return;
+        }
+
+
+        nextTurn = (TurnEnum)Random.Range(0, 2);
+
+        Debug.Log("Next turn: " + nextTurn.ToString());
+
+        if (EnteringIntersection != null)
+        {
+            EnteringIntersection(nextTurn);
+        }
+
+       
+        
+        currentPath = currentIntersection.GetPath(nextTurn);
+
+        wayPoints = currentPath.GetComponentsInChildren<Transform>();
+
+        curWP = 1;
+
+        Debug.Log("Next Path: " + currentPath.gameObject.name);
+    }
+
+
+    //need to shut down colliders for x seconds and then re-enable after entering one.
+    void DisableColliders(Collider other)
+    {
+        //Transform intersectionTop = other.gameObject.GetComponentInParent<Transform>();
+
+        Transform intersectionTop = other.gameObject.transform.parent;
+
+        Collider[] children = intersectionTop.GetComponentsInChildren<Collider>();
+
+        Debug.Log("Colliders Detected: " + children.Length.ToString());
+
+        foreach (Collider child in children)
+            child.gameObject.SetActive(false);
+
+    }
 
 }

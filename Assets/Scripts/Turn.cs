@@ -6,74 +6,47 @@ public class Turn : MonoBehaviour
 {
  
     
-    
-    
-    
-    /*  enum TurnDirection { NONE, LEFT, RIGHT };
+    TurnEnum nextTurn;
 
-    [SerializeField] public GameObject left { get; }
-    [SerializeField] public GameObject right { get; }
+    TurnEnum turnChoice;
 
-    bool turnPending = false;
+    bool turnMade = false;
 
-    TurnDirection nextTurn = TurnDirection.NONE;
 
     // Start is called before the first frame update
     void Start()
     {
-       // TaxiController.ApproachingTurn += GenerateNextTurn;
+       
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(turnPending)
+        //need a timer in here 
+        if (!turnMade)
         {
-            if(Input.GetKeyDown(KeyCode.LeftArrow))
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                if(nextTurn == TurnDirection.RIGHT)
-                {
-                    Debug.Log("Correct");
-                    turnPending = false;
-                }
-                else 
-                {
-                    Debug.Log("GAME OVER");
-                }
+                turnChoice = TurnEnum.RIGHT;
+                turnMade = true;
             }
+
 
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
-                if(nextTurn == TurnDirection.LEFT)
-                {
-                    Debug.Log("Correct");
-                    turnPending = false;
-                }
-                else
-                {
-                    Debug.Log("GAME OVER");
-                }
+                turnChoice = TurnEnum.LEFT;
+                turnMade = true;
             }
-
-
         }
+            
+     
     }
 
-    void GenerateNextTurn()
+    void ProcessTurn(TurnEnum turn)
     {
-        int randomTurn = Random.Range(0, 2);
+        nextTurn = turn;
 
-        if(randomTurn == 0)
-        {
-            Debug.LogError("TurnLeft");
-           // nextTurn = TurnDirection.left;
-        }
-        else
-        {
-            Debug.LogError("TurnRight");
-           // nextTurn = TurnDirection.right;
-        }
 
-        turnPending = true;
-    }*/
+    }
+
 }
