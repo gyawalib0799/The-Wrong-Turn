@@ -7,9 +7,13 @@ using Random = UnityEngine.Random;
 public class TaxiController : MonoBehaviour
 {
     int curWP;
+    int previousWP;
+
     float rotSpeed = 1.4f;
     float speed = 15.5f;
     float accuracyWP = 5.0f;
+
+    bool lastWaypoint = false;
 
     [SerializeField] Transform[] wayPoints;
 
@@ -40,6 +44,7 @@ public class TaxiController : MonoBehaviour
         Debug.Log("waypoints length: " + wayPoints.Length.ToString());
 
         curWP = 1;
+        
 
         layerMask = LayerMask.GetMask("Terrain");
 
@@ -50,33 +55,43 @@ public class TaxiController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
+
+
         if (Vector3.Distance(wayPoints[curWP].transform.position, transform.position) < accuracyWP)
         {
             curWP++;
             if (curWP >= wayPoints.Length)
             {
-                curWP = 0;
+                curWP = 1;
+                lastWaypoint = true;
             }
         }
 
-        Vector3 direction = wayPoints[curWP].transform.position - transform.position;
+        if (!lastWaypoint)
+        {
+            Vector3 direction = wayPoints[curWP].transform.position - transform.position;
 
-       
-        this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotSpeed * Time.deltaTime);
+
+            this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotSpeed * Time.deltaTime);
+            
+        }
+        
         this.transform.Translate(0, 0, Time.deltaTime * speed);
+
 
         RaycastHit hitInfo;
 
-        if(Physics.Raycast( transform.position, -transform.up, out hitInfo, Mathf.Infinity,layerMask))
+        if (Physics.Raycast(transform.position, -transform.up, out hitInfo, Mathf.Infinity, layerMask))
         {
             //transform.up = hitInfo.normal;
             transform.up -= (transform.up - hitInfo.normal) * 0.1f;
 
         }
-       
-     
+
+
+
 
 
     }
@@ -89,7 +104,7 @@ public class TaxiController : MonoBehaviour
 
             currentIntersection = other.gameObject.GetComponent<Intersection>();
 
-            DisableColliders(other);
+            StartCoroutine(DisableColliders(other));
 
             PickTurnDirection();
 
@@ -131,12 +146,14 @@ public class TaxiController : MonoBehaviour
 
         curWP = 1;
 
+        lastWaypoint = false;
+
         Debug.Log("Next Path: " + currentPath.gameObject.name);
     }
 
 
     //need to shut down colliders for x seconds and then re-enable after entering one.
-    void DisableColliders(Collider other)
+    IEnumerator DisableColliders(Collider other)
     {
         //Transform intersectionTop = other.gameObject.GetComponentInParent<Transform>();
 
@@ -148,6 +165,12 @@ public class TaxiController : MonoBehaviour
 
         foreach (Collider child in children)
             child.gameObject.SetActive(false);
+
+        yield return new WaitForSeconds(5);
+
+
+        foreach (Collider child in children)
+            child.gameObject.SetActive(true) ;
 
     }
 
