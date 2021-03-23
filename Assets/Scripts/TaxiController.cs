@@ -17,6 +17,8 @@ public class TaxiController : MonoBehaviour
 
     [SerializeField] Transform[] wayPoints;
 
+    [SerializeField] float colliderDisableTime = 10;
+
     //[SerializeField] GameObject[] paths;
 
     GameObject currentPath;
@@ -166,7 +168,7 @@ public class TaxiController : MonoBehaviour
         foreach (Collider child in children)
             child.gameObject.SetActive(false);
 
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(colliderDisableTime);
 
 
         foreach (Collider child in children)
