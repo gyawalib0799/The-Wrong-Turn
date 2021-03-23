@@ -27,8 +27,9 @@ public class Intersection : MonoBehaviour
         
     }
 
-    public GameObject GetPath(TurnEnum nextTurn)
+    public GameObject GetPath(int nextTurnInt)
     {
+        /*
         foreach( Turn turn in turns)
         {
             if (turn.turn == nextTurn)
@@ -36,6 +37,8 @@ public class Intersection : MonoBehaviour
         }
 
         return null;
+        */
+        return turns[nextTurnInt].path;
     }
 
     public int GetTurnCount()

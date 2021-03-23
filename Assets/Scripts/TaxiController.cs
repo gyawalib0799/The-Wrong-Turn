@@ -50,7 +50,7 @@ public class TaxiController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (Vector3.Distance(wayPoints[curWP].transform.position, transform.position) < accuracyWP)
         {
@@ -98,7 +98,7 @@ public class TaxiController : MonoBehaviour
 
 
     void PickTurnDirection()
-    {
+    {/*
         if (currentIntersection.GetTurnCount() == 1)
         {
             currentPath = currentIntersection.GetPath(TurnEnum.STRAIGHT);
@@ -110,11 +110,13 @@ public class TaxiController : MonoBehaviour
 
             return;
         }
+        */
+        int nextTurnInt;
 
 
-        nextTurn = (TurnEnum)Random.Range(0, 2);
+        nextTurnInt = Random.Range(0, currentIntersection.GetTurnCount());
 
-        Debug.Log("Next turn: " + nextTurn.ToString());
+        Debug.Log("Next turn: " + nextTurnInt.ToString());
 
         if (EnteringIntersection != null)
         {
@@ -123,7 +125,7 @@ public class TaxiController : MonoBehaviour
 
        
         
-        currentPath = currentIntersection.GetPath(nextTurn);
+        currentPath = currentIntersection.GetPath(nextTurnInt);
 
         wayPoints = currentPath.GetComponentsInChildren<Transform>();
 
