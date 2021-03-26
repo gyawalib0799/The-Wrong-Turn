@@ -15,6 +15,8 @@ public class TaxiController : MonoBehaviour
 
     bool lastWaypoint = false;
 
+    
+
     [SerializeField] Transform[] wayPoints;
 
     [SerializeField] float colliderDisableTime = 10;
@@ -129,9 +131,47 @@ public class TaxiController : MonoBehaviour
         }
         */
         int nextTurnInt;
-
-
+        
         nextTurnInt = Random.Range(0, currentIntersection.GetTurnCount());
+        int turnCap = currentIntersection.GetTurnCount();
+
+        int leftTurn = 0;
+        int rightTurn = 0;
+        int straightTurn = 0;
+
+        if (turnCap > 1)
+        {
+            for (int i = 0; i < turnCap; i++)
+            {
+                int val = (int) currentIntersection.turns[i].turn;
+                switch (val)
+                {
+                    case 0:
+                        leftTurn = i;
+                        break;
+                    case 1:
+                        rightTurn = i;
+                        break;
+                    case 2:
+                        straightTurn = i;
+                        break;
+                }
+            }
+
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                nextTurnInt = leftTurn;
+            }
+            else if (Input.GetKey(KeyCode.RightArrow))
+            {
+                nextTurnInt = rightTurn;
+            }
+            else
+            {
+                nextTurnInt = straightTurn;
+            }
+
+        }
 
         Debug.Log("Next turn: " + nextTurnInt.ToString());
 

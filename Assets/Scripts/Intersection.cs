@@ -6,13 +6,13 @@ public class Intersection : MonoBehaviour
 {
     int turnCount;
     
-    [System.Serializable] struct Turn
+    [System.Serializable] public struct Turn
     {
        public TurnEnum turn;
        public GameObject path;    
     }
 
-    [SerializeField] Turn[] turns;
+    [SerializeField] public Turn[] turns;
 
     
     // Start is called before the first frame update
