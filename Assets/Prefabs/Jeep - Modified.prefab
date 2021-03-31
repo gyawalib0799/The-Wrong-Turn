@@ -240,10 +240,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7176452807193692869}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e68584c0bd34f14fa492cc60ced062e, type: 3}
+  m_Script: {fileID: 11500000, guid: 093aa428f58f8814cbc2f65596308180, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   wayPoints: []
+  colliderDisableTime: 10
 --- !u!1 &7176452807193692873
 GameObject:
   m_ObjectHideFlags: 0

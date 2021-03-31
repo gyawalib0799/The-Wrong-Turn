@@ -177,6 +177,7 @@ public class TaxiController : MonoBehaviour
 
         if (EnteringIntersection != null)
         {
+            //
             EnteringIntersection(nextTurn);
         }
 
