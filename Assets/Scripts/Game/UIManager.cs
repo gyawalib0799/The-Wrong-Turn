@@ -16,21 +16,25 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private float maxTimeForTurn = 1.5f;
 
+    [SerializeField]
+    TextMeshProUGUI timeText;
+
     private float turnEndTime;
     
 
     private int turnsMade = 0;
 
     private bool playerTurning = false;
+    private bool debugOption = false;
 
     private TurnEnum playersTurnChoice = TurnEnum.STRAIGHT;
 
     private TurnEnum correctTurn = TurnEnum.STRAIGHT;
 
     public static Action ProperTurnMade;
-    public static Action WrongTurn;
+    //public static Action WrongTurn;
 
-
+   
     
     // Start is called before the first frame update
     void Start()
@@ -41,18 +45,30 @@ public class UIManager : MonoBehaviour
 
         TaxiController.EnteringIntersection += UpdateTurnText;
 
-        
+        timeText.text = string.Empty;
+        timeText.gameObject.SetActive(debugOption);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.D))
+        {
+            debugOption = !debugOption;
+
+            timeText.gameObject.SetActive(debugOption);
+        }
+        
+        
         if (playerTurning)
         {
             if (Time.time < turnEndTime)
             {
-              //  Debug.Log("Time / End Time:  " + Time.time.ToString() + "-------" +  turnEndTime.ToString());
+                Debug.Log("Time / End Time:  " + Time.time.ToString() + "-------" +  turnEndTime.ToString());
                 //check if time
+
+                timeText.text = (turnEndTime - Time.time).ToString();
+
                 if (Input.GetKeyDown(KeyCode.Z))
                 {
                     playersTurnChoice = TurnEnum.LEFT;
@@ -96,11 +112,15 @@ public class UIManager : MonoBehaviour
         {
             if (ProperTurnMade != null)
                 ProperTurnMade();
+            turnsMade++;
+            turnsMadeText.text = String.Format("Intersections: {0}", turnsMade);
         }
         else
         {
-            if (WrongTurn != null)
-                WrongTurn();
+            playerTurnText.text = "GAME OVER";
+            
+
+            Time.timeScale = 0;
         }
 
        // correctTurn = null;

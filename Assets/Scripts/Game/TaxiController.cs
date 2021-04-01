@@ -54,7 +54,7 @@ public class TaxiController : MonoBehaviour
 
         rb = GetComponent<Rigidbody>();
 
-        UIManager.WrongTurn += ProcessGameOver;
+       // UIManager.WrongTurn += ProcessGameOver;
         UIManager.ProperTurnMade += TurnComplete;
       
     }
@@ -229,10 +229,7 @@ public class TaxiController : MonoBehaviour
 
     }
 
-    void ProcessGameOver()
-    {
-        Debug.Log("-------------GAME OVER-----------");
-    }
+    
 
     void TurnComplete()
     {
