@@ -15,7 +15,7 @@ public class TaxiController : MonoBehaviour
 
     bool lastWaypoint = false;
 
-    
+    bool guidanceEnabled = true;
 
     [SerializeField] Transform[] wayPoints;
 
@@ -54,7 +54,8 @@ public class TaxiController : MonoBehaviour
 
         rb = GetComponent<Rigidbody>();
 
-        
+        UIManager.WrongTurn += ProcessGameOver;
+        UIManager.ProperTurnMade += TurnComplete;
       
     }
 
@@ -62,26 +63,27 @@ public class TaxiController : MonoBehaviour
     void Update()
     {
 
-
-        if (Vector3.Distance(wayPoints[curWP].transform.position, transform.position) < accuracyWP)
+        if (guidanceEnabled)
         {
-            curWP++;
-            if (curWP >= wayPoints.Length)
+            if (Vector3.Distance(wayPoints[curWP].transform.position, transform.position) < accuracyWP)
             {
-                curWP = 1;
-                lastWaypoint = true;
+                curWP++;
+                if (curWP >= wayPoints.Length)
+                {
+                    curWP = 1;
+                    lastWaypoint = true;
+                }
+            }
+
+            if (!lastWaypoint)
+            {
+                Vector3 direction = wayPoints[curWP].transform.position - transform.position;
+
+
+                this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotSpeed * Time.deltaTime);
+
             }
         }
-
-        if (!lastWaypoint)
-        {
-            Vector3 direction = wayPoints[curWP].transform.position - transform.position;
-
-
-            this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotSpeed * Time.deltaTime);
-            
-        }
-        
         this.transform.Translate(0, 0, Time.deltaTime * speed);
 
 
@@ -112,6 +114,8 @@ public class TaxiController : MonoBehaviour
 
             PickTurnDirection();
 
+            guidanceEnabled = false;
+
         }
     }
 
@@ -130,9 +134,14 @@ public class TaxiController : MonoBehaviour
             return;
         }
         */
+        
+        
         int nextTurnInt;
         
         nextTurnInt = Random.Range(0, currentIntersection.GetTurnCount());
+        Debug.Log("Next turn: " + nextTurnInt.ToString());
+
+        /*
         int turnCap = currentIntersection.GetTurnCount();
 
         int leftTurn = 0;
@@ -172,8 +181,10 @@ public class TaxiController : MonoBehaviour
             }
 
         }
-
-        Debug.Log("Next turn: " + nextTurnInt.ToString());
+      */
+       // Debug.Log("Next turn: " + nextTurnInt.ToString());
+        
+        nextTurn = currentIntersection.GetTurn(nextTurnInt);
 
         if (EnteringIntersection != null)
         {
@@ -184,6 +195,7 @@ public class TaxiController : MonoBehaviour
        
         
         currentPath = currentIntersection.GetPath(nextTurnInt);
+        
 
         wayPoints = currentPath.GetComponentsInChildren<Transform>();
 
@@ -215,6 +227,17 @@ public class TaxiController : MonoBehaviour
         foreach (Collider child in children)
             child.gameObject.SetActive(true) ;
 
+    }
+
+    void ProcessGameOver()
+    {
+        Debug.Log("-------------GAME OVER-----------");
+    }
+
+    void TurnComplete()
+    {
+        guidanceEnabled = true;
+        Debug.Log("Guidance Enabled");
     }
 
 }

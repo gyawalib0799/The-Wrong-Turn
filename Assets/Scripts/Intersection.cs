@@ -41,6 +41,11 @@ public class Intersection : MonoBehaviour
         return turns[nextTurnInt].path;
     }
 
+    public TurnEnum GetTurn(int nextTurnInt)
+    {
+        return turns[nextTurnInt].turn;
+    }
+
     public int GetTurnCount()
     {
         return turns.Length;

@@ -1132,6 +1132,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTurnText: {fileID: 41964925}
+  turnsMadeText: {fileID: 590328399}
+  maxTimeForTurn: 2.2
 --- !u!1001 &125630866
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13663,7 +13665,7 @@ PrefabInstance:
         type: 3}
       propertyPath: turns.Array.data[1].path
       value: 
-      objectReference: {fileID: 564586991}
+      objectReference: {fileID: 119370658}
     - target: {fileID: 2712544340920884871, guid: a9825eee1a458ba45b5b0114dbb58ad7,
         type: 3}
       propertyPath: turns.Array.data[1].turn

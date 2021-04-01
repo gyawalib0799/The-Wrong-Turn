@@ -5,7 +5,7 @@ using UnityEngine;
 public class Turn : MonoBehaviour
 {
  
-    
+   /* 
     TurnEnum nextTurn;
 
     TurnEnum turnChoice;
@@ -48,5 +48,5 @@ public class Turn : MonoBehaviour
 
 
     }
-
+   */
 }
