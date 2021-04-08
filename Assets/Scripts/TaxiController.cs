@@ -9,8 +9,8 @@ public class TaxiController : MonoBehaviour
     int curWP;
     int previousWP;
 
-    float rotSpeed = 1.4f;
-    float speed = 15.5f;
+   [SerializeField] float rotSpeed = 1.4f;
+   [SerializeField]  float speed = 15.5f;
     float accuracyWP = 5.0f;
 
     bool lastWaypoint = false;
