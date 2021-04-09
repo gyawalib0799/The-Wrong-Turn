@@ -64,12 +64,12 @@ public class UIManager : MonoBehaviour
         {
             if (Time.time < turnEndTime)
             {
-                Debug.Log("Time / End Time:  " + Time.time.ToString() + "-------" +  turnEndTime.ToString());
+                //Debug.Log("Time / End Time:  " + Time.time.ToString() + "-------" +  turnEndTime.ToString());
                 //check if time
 
                 timeText.text = (turnEndTime - Time.time).ToString();
 
-                if (Input.GetKeyDown(KeyCode.Z))
+                if (Input.GetKeyDown(KeyCode.Z) || Input.deviceOrientation == DeviceOrientation.PortraitUpsideDown)
                 {
                     playersTurnChoice = TurnEnum.LEFT;
                     playerTurnText.text = string.Empty;
@@ -77,7 +77,7 @@ public class UIManager : MonoBehaviour
                     CheckIfTurnIsCorrect();
                     Debug.Log("Player chose Left");
                 }
-                else if (Input.GetKeyDown(KeyCode.X))
+                else if (Input.GetKeyDown(KeyCode.X) || Input.deviceOrientation == DeviceOrientation.Portrait) 
                 {
                     playersTurnChoice = TurnEnum.RIGHT;
                     playerTurnText.text = string.Empty;
@@ -142,5 +142,12 @@ public class UIManager : MonoBehaviour
 
         turnEndTime = Time.time + maxTimeForTurn;
       //  Debug.LogError("-Turn End Time-" + turnEndTime.ToString());
+    }
+
+    public void TimerButtonPushed()
+    {
+        debugOption = !debugOption;
+
+        timeText.gameObject.SetActive(debugOption);
     }
 }
