@@ -1,0 +1,58 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
+public class TitleScreen : MonoBehaviour
+{
+    [SerializeField] GameObject settingsPanel;
+    [SerializeField] Button startButton;
+    [SerializeField] Button settingsButton;
+    [SerializeField] Button doneButton;
+
+    private bool skipInstructionScreen = false;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        settingsPanel.SetActive(false);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    public void StartButtonPushed()
+    {
+        if(skipInstructionScreen)
+        {
+            SceneManager.LoadScene(2);   //scene 2 is the main game screen
+        }
+        else
+        {
+            SceneManager.LoadScene(1);  //scene 1 is the instruction screen
+        }
+
+    }
+
+    public void SettingsButtonPushed()
+    {
+        settingsPanel.SetActive(true);
+        startButton.gameObject.SetActive(false);
+        settingsButton.gameObject.SetActive(false);
+
+    }
+
+    public void DoneButtonPushed()
+    {
+        settingsPanel.SetActive(false);
+        startButton.gameObject.SetActive(true);
+        settingsButton.gameObject.SetActive(true);
+    }
+
+
+
+}
