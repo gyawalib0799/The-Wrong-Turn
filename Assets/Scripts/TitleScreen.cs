@@ -53,6 +53,9 @@ public class TitleScreen : MonoBehaviour
         settingsButton.gameObject.SetActive(true);
     }
 
-
+    public void SkipInstructionsToggled()
+    {
+        skipInstructionScreen = !skipInstructionScreen;
+    }
 
 }
