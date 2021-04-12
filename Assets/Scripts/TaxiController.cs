@@ -8,6 +8,7 @@ public class TaxiController : MonoBehaviour
 {
     int curWP;
     int previousWP;
+    public static bool liveGame;
 
    [SerializeField] float rotSpeed = 1.4f;
    [SerializeField]  float speed = 15.5f;
@@ -41,6 +42,7 @@ public class TaxiController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        liveGame = true;
         currentPath = GameObject.FindGameObjectWithTag("StartingPath");
         
         wayPoints = currentPath.GetComponentsInChildren<Transform>();
@@ -62,6 +64,11 @@ public class TaxiController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!liveGame)
+        {
+            this.transform.Translate(0, 0, 0);
+            this.enabled = false;
+        }
 
         if (guidanceEnabled)
         {
