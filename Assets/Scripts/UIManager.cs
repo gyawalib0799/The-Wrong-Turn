@@ -32,6 +32,8 @@ public class UIManager : MonoBehaviour
     private TurnEnum correctTurn = TurnEnum.STRAIGHT;
 
     public static Action ProperTurnMade;
+    public GameObject deathMonster;
+    public GameObject taxi;
     //public static Action WrongTurn;
 
    
@@ -111,10 +113,22 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            playerTurnText.text = "GAME OVER";
-            
+            TaxiController.liveGame = false;
 
-            Time.timeScale = 0;
+            //GameObject monster = Instantiate(deathMonster, new Vector3(0, 0, 0), Quaternion.identity);
+            GameObject monster = Instantiate(deathMonster, taxi.transform.position, Quaternion.identity, taxi.transform);
+            monster.transform.rotation = taxi.transform.rotation;
+            Vector3 worldToLocal = taxi.transform.InverseTransformVector(0, -2, -2.2f);
+            monster.transform.position = monster.transform.position + worldToLocal;
+            //Vector3 localForward = 2.2f * taxi.transform.forward;
+            //monster.transform.position = new Vector3(taxi.transform.position.x + localForward.x, taxi.transform.position.y - 2.2f + localForward.y, taxi.transform.position.z + localForward.z);
+            monster.transform.Rotate(0, 180, 0);
+            //playerTurnText.text = "GAME OVER";
+
+            TaxiController.liveGame = false;
+
+            //Time.timeScale = 0;
+
         }
 
        // correctTurn = null;
