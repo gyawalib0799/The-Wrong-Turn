@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -33,6 +34,7 @@ public class UIManager : MonoBehaviour
 
     public static Action ProperTurnMade;
     public GameObject deathMonster;
+    public GameObject deathMonster2;
     public GameObject taxi;
     //public static Action WrongTurn;
 
@@ -115,24 +117,51 @@ public class UIManager : MonoBehaviour
         {
             TaxiController.liveGame = false;
 
-            //GameObject monster = Instantiate(deathMonster, new Vector3(0, 0, 0), Quaternion.identity);
-            GameObject monster = Instantiate(deathMonster, taxi.transform.position, Quaternion.identity, taxi.transform);
-            monster.transform.rotation = taxi.transform.rotation;
-            Vector3 worldToLocal = taxi.transform.InverseTransformVector(0, -2, -2.2f);
-            monster.transform.position = monster.transform.position + worldToLocal;
-            //Vector3 localForward = 2.2f * taxi.transform.forward;
-            //monster.transform.position = new Vector3(taxi.transform.position.x + localForward.x, taxi.transform.position.y - 2.2f + localForward.y, taxi.transform.position.z + localForward.z);
-            monster.transform.Rotate(0, 180, 0);
-            //playerTurnText.text = "GAME OVER";
 
+            StartCoroutine(CreateMonster());
             TaxiController.liveGame = false;
 
-            //Time.timeScale = 0;
+
 
         }
 
        // correctTurn = null;
 
+    }
+
+    IEnumerator CreateMonster()
+    {
+        
+        yield return new WaitForSeconds(3);
+        System.Random generator = new System.Random();
+        int val = generator.Next(0, 50);
+        if (val > 1)
+        {
+            GameObject monster = Instantiate(deathMonster, taxi.transform.position, Quaternion.identity, taxi.transform);
+            monster.transform.rotation = taxi.transform.rotation;
+            //Vector3 worldToLocal = taxi.transform.InverseTransformVector(0, -2, -2.2f);
+            Vector3 worldToLocal = taxi.transform.TransformDirection(new Vector3(0.3f, -2, 2.2f));
+            monster.transform.position = monster.transform.position + worldToLocal;
+            
+            monster.transform.Rotate(0, 180, 0);
+        }
+        else
+        {
+            GameObject monster = Instantiate(deathMonster2, taxi.transform.position, Quaternion.identity, taxi.transform);
+            monster.transform.rotation = taxi.transform.rotation;
+            // Vector3 worldToLocal = taxi.transform.InverseTransformVector(-0.7f, -1.55f, -3.67f);
+            Vector3 worldToLocal = taxi.transform.TransformDirection(new Vector3(0.47f, -1.55f, 3.67f));
+            monster.transform.position = monster.transform.position + worldToLocal;
+
+            monster.transform.Rotate(0, 180, 0);
+        }
+        yield return new WaitForSeconds(2f);
+
+        
+
+        //After we have waited 5 seconds print the time again.
+        Debug.Log("Finished Coroutine at timestamp : " + Time.time);
+        SceneManager.LoadScene("Instruction Scene");
     }
     private void UpdateTurnText(TurnEnum nextTurn)
     {
