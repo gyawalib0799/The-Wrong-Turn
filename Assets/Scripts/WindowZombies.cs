@@ -9,29 +9,47 @@ public class WindowZombies : MonoBehaviour
     [SerializeField] float minRespawnTime = 8;
     [SerializeField] float maxRespawnTime = 20;
 
+    //array of locations the zombie will appear in
     [SerializeField] GameObject[] targetPos;
 
+    //how fast the zombie moves up and down 
     [SerializeField] float creepSpeed = 1;
 
-    [SerializeField] GameObject startingPos;
+
+    [SerializeField] GameObject startingPos;    //for the zombie
 
     private bool zombieLowering = false;
     private bool zombieRaising = false;
 
     private float timeUntilMove;
 
+    //There is an array of locations where the zombie will come down to, this is the index into the array
     private int targetIndex = 0;
+
+    private int previousTargetIndex = 0;
+
+    private AudioSource audio;
+
+    private Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
-       // startingPos = transform.localPosition;
+       
 
         //calcualte a random spawn time
         timeUntilMove = UnityEngine.Random.Range(minRespawnTime, maxRespawnTime);
 
         //add that time to the current time to get the future move time for the zombie
         timeUntilMove += Time.time;
+
+        audio = GetComponent<AudioSource>();
+
+        animator = GetComponent<Animator>();
+
+        animator.enabled = false;
+
+        UIManager.PlayerDeath += TurnOffZombie;
     }
 
     // Update is called once per frame
@@ -46,6 +64,7 @@ public class WindowZombies : MonoBehaviour
         }
         if (zombieLowering)
         {
+        
             LowerZombie();
         }
         else if (zombieRaising)
@@ -59,7 +78,18 @@ public class WindowZombies : MonoBehaviour
     {
         zombieLowering = true;
 
-        targetIndex = UnityEngine.Random.Range(0, targetPos.Length);
+        //we want the zombie to appear differently every time
+        while (targetIndex == previousTargetIndex)
+        {
+            targetIndex = UnityEngine.Random.Range(0, targetPos.Length);
+        }
+    
+        
+        if (targetIndex == 0)
+        {   //this will play the scary sound when the zombie comes down with head and body in middle of view
+            animator.enabled = true;
+            audio.Play();
+        }
 
         yield return new WaitForSeconds(onScreenTime);
       
@@ -100,6 +130,9 @@ public class WindowZombies : MonoBehaviour
 
             //add that time to the current time to get the future move time for the zombie
             timeUntilMove += Time.time;
+            animator.enabled = false;
+
+            previousTargetIndex = targetIndex;
 
 
         }
@@ -109,6 +142,11 @@ public class WindowZombies : MonoBehaviour
         }
 
 
+    }
+
+    void TurnOffZombie()
+    {
+        gameObject.SetActive(false);
     }
 
 }

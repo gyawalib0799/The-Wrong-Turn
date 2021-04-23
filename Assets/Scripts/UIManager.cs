@@ -33,6 +33,8 @@ public class UIManager : MonoBehaviour
     private TurnEnum correctTurn = TurnEnum.STRAIGHT;
 
     public static Action ProperTurnMade;
+    public static Action PlayerDeath;
+
     public GameObject deathMonster;
     public GameObject deathMonster2;
     public GameObject taxi;
@@ -121,7 +123,9 @@ public class UIManager : MonoBehaviour
             StartCoroutine(CreateMonster());
             TaxiController.liveGame = false;
 
-
+            //This action will tell the window zombie not to reappear during the death sequence
+            if (PlayerDeath != null)
+                PlayerDeath();
 
         }
 
