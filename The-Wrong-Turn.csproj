@@ -617,6 +617,8 @@
     <Compile Include="Assets\Scripts\TaxiController.cs" />
     <Compile Include="Assets\Scripts\Turn.cs" />
     <Compile Include="Assets\Scripts\TurnEnum.cs" />
+    <Compile Include="Assets\Scripts\UIManager.cs" />
+    <Compile Include="Assets\Speedometer.cs" />
     <Compile Include="Assets\TaxiMovement.cs" />
   </ItemGroup>
   <ItemGroup>

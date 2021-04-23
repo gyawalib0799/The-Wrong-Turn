@@ -8,6 +8,7 @@ public class TaxiController : MonoBehaviour
 {
     int curWP;
     int previousWP;
+    public static bool liveGame;
 
    [SerializeField] float rotSpeed = 1.4f;
    [SerializeField]  float speed = 15.5f;
@@ -41,6 +42,7 @@ public class TaxiController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        liveGame = true;
         currentPath = GameObject.FindGameObjectWithTag("StartingPath");
         
         wayPoints = currentPath.GetComponentsInChildren<Transform>();
@@ -62,6 +64,17 @@ public class TaxiController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!liveGame)
+        {
+            this.transform.Translate(0, 0, 0);
+            StartCoroutine(LeadToDeath());
+            guidanceEnabled = false;
+            Vector3 direction = wayPoints[curWP].transform.position - transform.position;
+
+
+            this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotSpeed * Time.deltaTime);
+
+        }
 
         if (guidanceEnabled)
         {
@@ -100,6 +113,22 @@ public class TaxiController : MonoBehaviour
 
 
 
+    }
+
+    IEnumerator LeadToDeath()
+    {
+        //Print the time of when the function is first called.
+        Debug.Log("Started Coroutine at timestamp : " + Time.time);
+
+        yield return new WaitForSeconds(1);
+        Vector3 direction = this.transform.right;
+        this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotSpeed * Time.deltaTime);
+        yield return new WaitForSeconds(1f);
+        this.transform.eulerAngles = new Vector3(this.transform.eulerAngles.x, this.transform.eulerAngles.y, this.transform.eulerAngles.z);
+        this.enabled = false;
+
+        //After we have waited 5 seconds print the time again.
+        Debug.Log("Finished Coroutine at timestamp : " + Time.time);
     }
 
     private void OnTriggerEnter(Collider other)
