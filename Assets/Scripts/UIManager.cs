@@ -161,7 +161,7 @@ public class UIManager : MonoBehaviour
 
         //After we have waited 5 seconds print the time again.
         Debug.Log("Finished Coroutine at timestamp : " + Time.time);
-        SceneManager.LoadScene("Instruction Scene");
+        SceneManager.LoadScene(0);
     }
     private void UpdateTurnText(TurnEnum nextTurn)
     {
