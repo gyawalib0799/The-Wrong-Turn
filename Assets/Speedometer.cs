@@ -10,6 +10,13 @@ public class Speedometer : MonoBehaviour
     public Rigidbody target;
     public float maxSpeed = 22f;
 
+    //1.4, 20
+    //1.4, 22
+    //1.6, 25
+    //1.8, 27
+    //2.2, 29
+    //2.4, 31
+
     public float minSpeedArrowAngle;
     public float maxSpeedArrowAngle;
 

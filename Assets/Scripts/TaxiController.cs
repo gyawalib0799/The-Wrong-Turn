@@ -62,7 +62,7 @@ public class TaxiController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (!liveGame)
         {
@@ -72,7 +72,7 @@ public class TaxiController : MonoBehaviour
             Vector3 direction = wayPoints[curWP].transform.position - transform.position;
 
 
-            this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotSpeed * Time.deltaTime);
+            this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotSpeed * Time.fixedDeltaTime);
 
         }
 
@@ -92,9 +92,9 @@ public class TaxiController : MonoBehaviour
             {
                 Vector3 direction = wayPoints[curWP].transform.position - transform.position;
 
-
-                this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotSpeed * Time.deltaTime);
-
+                rb.freezeRotation = false;
+                this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotSpeed * Time.fixedDeltaTime);
+                rb.freezeRotation = true;
             }
         }
         this.transform.Translate(0, 0, Time.deltaTime * speed);
@@ -105,7 +105,9 @@ public class TaxiController : MonoBehaviour
         if (Physics.Raycast(transform.position, -transform.up, out hitInfo, Mathf.Infinity, layerMask))
         {
             //transform.up = hitInfo.normal;
+            rb.freezeRotation = false;
             transform.up -= (transform.up - hitInfo.normal) * 0.1f;
+            rb.freezeRotation = true;
 
         }
 
