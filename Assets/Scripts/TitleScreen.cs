@@ -15,6 +15,8 @@ public class TitleScreen : MonoBehaviour
     [SerializeField] Toggle medium;
     [SerializeField] Toggle hard;
 
+    [SerializeField] Slider volumeSlider;
+
     private bool skipInstructionScreen = false;
 
     // Start is called before the first frame update
@@ -31,6 +33,8 @@ public class TitleScreen : MonoBehaviour
 
     public void StartButtonPushed()
     {
+        GameManager.instance.GetAudio().Stop();
+        
         if(skipInstructionScreen)
         {
             SceneManager.LoadScene(2);   //scene 2 is the main game screen
@@ -89,4 +93,11 @@ public class TitleScreen : MonoBehaviour
         }
     }
 
+    public void VolumeChanged()
+    {
+        GameManager.instance.SetVolume(volumeSlider.value);
+
+       
+    }
+    
 }

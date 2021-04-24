@@ -20,7 +20,12 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI timeText;
 
+    [SerializeField]
+    private AudioSource music;
+    
+    
     private float turnEndTime;
+
 
 
     private int turnsMade = 0;
@@ -39,6 +44,9 @@ public class UIManager : MonoBehaviour
     public GameObject deathMonster;
     public GameObject deathMonster2;
     public GameObject taxi;
+
+    
+
     //public static Action WrongTurn;
 
 
@@ -56,6 +64,9 @@ public class UIManager : MonoBehaviour
         timeText.gameObject.SetActive(debugOption);
 
         maxTimeForTurn = GameManager.instance.GetNextLevelTime();
+
+       
+        music.volume = GameManager.instance.GetVolume();
     }
 
     // Update is called once per frame

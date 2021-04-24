@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-   
+    
 
     [SerializeField] int intersectionsBeforeIncrease = 10;
     [SerializeField] float startingTime = 2.5f;
@@ -17,11 +17,13 @@ public class GameManager : MonoBehaviour
     
     private int currentLevel = 0;
 
+    private float audioVolume;
+
     private bool showInstructionScreen = true;
     
     public static GameManager instance = null;
 
-  
+    AudioSource titleAudio;
     
     // Use this for initialization
     void Awake()
@@ -36,7 +38,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-      
+        titleAudio = GetComponent<AudioSource>();
+        
     }
 
     // Update is called once per frame
@@ -85,5 +88,19 @@ public class GameManager : MonoBehaviour
         startingDifficulty = value;
     }
 
+    public void SetVolume(float newVolume)
+    {
+        audioVolume = newVolume;
 
+        titleAudio.volume = audioVolume;
+    }
+    public float GetVolume()
+    {
+        return audioVolume;
+    }
+
+    public AudioSource GetAudio()
+    {
+        return titleAudio;
+    }
 }
