@@ -10,6 +10,8 @@ public class Speedometer : MonoBehaviour
     public Rigidbody target;
     public float maxSpeed = 22f;
 
+
+    //1.4  18 t = 2.5
     //1.4, 20 t=2.4
     //1.4, 22 t=2.2
     //1.6, 25 t=2.0

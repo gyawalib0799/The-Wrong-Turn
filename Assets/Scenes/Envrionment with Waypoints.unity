@@ -709,6 +709,54 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &82568837
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 82568839}
+  - component: {fileID: 82568838}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &82568838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 82568837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1359f0df4b3e105469ba695f7c931ad7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  intersectionsBeforeIncrease: 5
+  startingTime: 2.5
+  startingSpeed: 18
+  timeChangePerLevel: 0.15
+  speedChangePerLevel: 2.5
+--- !u!4 &82568839
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 82568837}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &104056656
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9509,6 +9557,11 @@ PrefabInstance:
       propertyPath: turns.Array.data[0].turn
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2712544339499251942, guid: a9825eee1a458ba45b5b0114dbb58ad7,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 18.25
+      objectReference: {fileID: 0}
     - target: {fileID: 2712544339499251943, guid: a9825eee1a458ba45b5b0114dbb58ad7,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -9599,6 +9652,11 @@ PrefabInstance:
       propertyPath: turns.Array.data[0].path
       value: 
       objectReference: {fileID: 2147114517}
+    - target: {fileID: 2712544341527674578, guid: a9825eee1a458ba45b5b0114dbb58ad7,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 15.58
+      objectReference: {fileID: 0}
     - target: {fileID: 2712544341527674579, guid: a9825eee1a458ba45b5b0114dbb58ad7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9905,7 +9963,7 @@ PrefabInstance:
     - target: {fileID: 1773808180829381000, guid: 637645952f023514fb022eeb1b2b8385,
         type: 3}
       propertyPath: m_Size.x
-      value: 2.83
+      value: 1.93
       objectReference: {fileID: 0}
     - target: {fileID: 1773808180829381000, guid: 637645952f023514fb022eeb1b2b8385,
         type: 3}
@@ -9930,12 +9988,17 @@ PrefabInstance:
     - target: {fileID: 1773808180829381002, guid: 637645952f023514fb022eeb1b2b8385,
         type: 3}
       propertyPath: speed
-      value: 31
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 1773808180829381002, guid: 637645952f023514fb022eeb1b2b8385,
         type: 3}
       propertyPath: rotSpeed
-      value: 2.4
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1773808180829381002, guid: 637645952f023514fb022eeb1b2b8385,
+        type: 3}
+      propertyPath: accuracyWP
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2562963807722950364, guid: 637645952f023514fb022eeb1b2b8385,
         type: 3}
@@ -9946,6 +10009,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Jeep - Modified
+      objectReference: {fileID: 0}
+    - target: {fileID: 7176452807193692869, guid: 637645952f023514fb022eeb1b2b8385,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 7176452807193859813, guid: 637645952f023514fb022eeb1b2b8385,
         type: 3}
@@ -9960,7 +10028,7 @@ PrefabInstance:
     - target: {fileID: 7176452807193859813, guid: 637645952f023514fb022eeb1b2b8385,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10.51
+      value: 8.85
       objectReference: {fileID: 0}
     - target: {fileID: 7176452807193859813, guid: 637645952f023514fb022eeb1b2b8385,
         type: 3}

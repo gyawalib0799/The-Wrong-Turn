@@ -11,8 +11,8 @@ public class TaxiController : MonoBehaviour
     public static bool liveGame;
 
    [SerializeField] float rotSpeed = 1.4f;
-   [SerializeField]  float speed = 15.5f;
-    float accuracyWP = 5.0f;
+   [SerializeField]  float speed = 18f;
+    [SerializeField] float accuracyWP = 7.0f;
 
     bool lastWaypoint = false;
 
@@ -58,6 +58,9 @@ public class TaxiController : MonoBehaviour
 
        // UIManager.WrongTurn += ProcessGameOver;
         UIManager.ProperTurnMade += TurnComplete;
+        UIManager.LevelUp += LevelUp;
+
+        
       
     }
 
@@ -105,9 +108,9 @@ public class TaxiController : MonoBehaviour
         if (Physics.Raycast(transform.position, -transform.up, out hitInfo, Mathf.Infinity, layerMask))
         {
             //transform.up = hitInfo.normal;
-           // rb.freezeRotation = false;
-            transform.up -= (transform.up - hitInfo.normal) * 0.1f;
-          //  rb.freezeRotation = true;
+            //rb.freezeRotation = false;
+          //  transform.up -= (transform.up - hitInfo.normal) * 0.1f;
+           // rb.freezeRotation = true;
 
         }
 
@@ -260,7 +263,26 @@ public class TaxiController : MonoBehaviour
 
     }
 
-    
+    //adjust speed only it should receive a speed;
+    void LevelUp(float nextSpeed)
+    {
+        //Level rot speed time
+        //  1    1.6  18  2.5
+        //  2    1.8, 20  2.4
+        //  3    2.0, 22  2.2
+        //  4    2.2, 25  2.0
+        //  5    2.4, 27  1.8
+        //  6    2.6, 29  1.6
+        // 7    2.8, 31  1.4
+        // 8    3.0, 33  1.2
+        // 9    3.2  35  1.1
+        // 10   3.4  37  1.0
+
+        //GameManager.instance.AddLevel(); this should be done in ui Manager
+
+        speed = nextSpeed;
+
+    }
 
     void TurnComplete()
     {
