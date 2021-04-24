@@ -11,6 +11,10 @@ public class TitleScreen : MonoBehaviour
     [SerializeField] Button settingsButton;
     [SerializeField] Button doneButton;
 
+    [SerializeField] Toggle easy;
+    [SerializeField] Toggle medium;
+    [SerializeField] Toggle hard;
+
     private bool skipInstructionScreen = false;
 
     // Start is called before the first frame update
@@ -56,6 +60,33 @@ public class TitleScreen : MonoBehaviour
     public void SkipInstructionsToggled()
     {
         skipInstructionScreen = !skipInstructionScreen;
+    }
+
+    public void EasyDifficulty()
+    {
+        if (easy.isOn)
+        {
+            //Debug.LogError("Easy");
+            GameManager.instance.SetStartingDifficulty(0);
+        }
+    }
+
+    public void MediumDifficulty()
+    {
+        if (medium.isOn)
+        {
+           // Debug.LogError("Medium");
+            GameManager.instance.SetStartingDifficulty(4);
+        }
+    }
+
+    public void HardDifficulty()
+    {
+        if (hard.isOn)
+        {
+            // Debug.LogError("Hard");
+            GameManager.instance.SetStartingDifficulty(8);
+        }
     }
 
 }

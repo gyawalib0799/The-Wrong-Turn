@@ -80,5 +80,10 @@ public class GameManager : MonoBehaviour
         return startingSpeed + GetCurrentLevel() * speedChangePerLevel;
     }
     
+    public void SetStartingDifficulty(int value)
+    {
+        startingDifficulty = value;
+    }
+
 
 }

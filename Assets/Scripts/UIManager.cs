@@ -54,6 +54,8 @@ public class UIManager : MonoBehaviour
 
         timeText.text = string.Empty;
         timeText.gameObject.SetActive(debugOption);
+
+        maxTimeForTurn = GameManager.instance.GetNextLevelTime();
     }
 
     // Update is called once per frame

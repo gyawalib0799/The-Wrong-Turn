@@ -60,8 +60,8 @@ public class TaxiController : MonoBehaviour
         UIManager.ProperTurnMade += TurnComplete;
         UIManager.LevelUp += LevelUp;
 
-        
-      
+
+        speed = GameManager.instance.GetNextLevelSpeed();
     }
 
     // Update is called once per frame
