@@ -135,7 +135,7 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(3);
         System.Random generator = new System.Random();
         int val = generator.Next(0, 50);
-        if (val > 1)
+        if (val > 24)
         {
             GameObject monster = Instantiate(deathMonster, taxi.transform.position, Quaternion.identity, taxi.transform);
             monster.transform.rotation = taxi.transform.rotation;
