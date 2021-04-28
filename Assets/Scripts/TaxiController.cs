@@ -8,7 +8,9 @@ public class TaxiController : MonoBehaviour
 {
     int curWP;
     int previousWP;
+    private bool onceOffDeath;
     public static bool liveGame;
+    private AudioSource Screech;
 
    [SerializeField] float rotSpeed = 1.4f;
    [SerializeField]  float speed = 15.5f;
@@ -42,6 +44,8 @@ public class TaxiController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        this.onceOffDeath = true;
+        this.Screech = this.GetComponent<AudioSource>();
         liveGame = true;
         currentPath = GameObject.FindGameObjectWithTag("StartingPath");
         
@@ -68,8 +72,14 @@ public class TaxiController : MonoBehaviour
         {
             this.transform.Translate(0, 0, 0);
             StartCoroutine(LeadToDeath());
+            if (this.onceOffDeath)
+            {
+                Screech.Play();
+                this.onceOffDeath = false;
+            }
             guidanceEnabled = false;
             Vector3 direction = wayPoints[curWP].transform.position - transform.position;
+
 
 
             this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotSpeed * Time.deltaTime);
@@ -119,7 +129,6 @@ public class TaxiController : MonoBehaviour
     {
         //Print the time of when the function is first called.
         Debug.Log("Started Coroutine at timestamp : " + Time.time);
-
         yield return new WaitForSeconds(1);
         Vector3 direction = this.transform.right;
         this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotSpeed * Time.deltaTime);
