@@ -10,6 +10,13 @@ public class TitleScreen : MonoBehaviour
     [SerializeField] Button startButton;
     [SerializeField] Button settingsButton;
     [SerializeField] Button doneButton;
+    [SerializeField] Toggle instructionToggle;
+
+    [SerializeField] Toggle easy;
+    [SerializeField] Toggle medium;
+    [SerializeField] Toggle hard;
+
+    [SerializeField] Slider volumeSlider;
 
     private bool skipInstructionScreen = false;
 
@@ -17,6 +24,26 @@ public class TitleScreen : MonoBehaviour
     void Start()
     {
         settingsPanel.SetActive(false);
+
+        volumeSlider.value = GameManager.instance.GetVolume();
+
+        switch(GameManager.instance.GetStartingDifficulty())
+        {
+            case 0:
+                easy.isOn = true;
+                break;
+            case 4:
+                medium.isOn = true;
+                break;
+            case 8:
+                hard.isOn = true;
+                break;
+            default:
+                break;
+        }
+
+        instructionToggle.isOn = GameManager.instance.GetShowInstructionScreen();
+
     }
 
     // Update is called once per frame
@@ -27,6 +54,8 @@ public class TitleScreen : MonoBehaviour
 
     public void StartButtonPushed()
     {
+        GameManager.instance.GetAudio().Stop();
+        
         if(skipInstructionScreen)
         {
             SceneManager.LoadScene(2);   //scene 2 is the main game screen
@@ -56,6 +85,42 @@ public class TitleScreen : MonoBehaviour
     public void SkipInstructionsToggled()
     {
         skipInstructionScreen = !skipInstructionScreen;
+
+        GameManager.instance.SetShowInstructionScreen(skipInstructionScreen);
     }
 
+    public void EasyDifficulty()
+    {
+        if (easy.isOn)
+        {
+            //Debug.LogError("Easy");
+            GameManager.instance.SetStartingDifficulty(0);
+        }
+    }
+
+    public void MediumDifficulty()
+    {
+        if (medium.isOn)
+        {
+           // Debug.LogError("Medium");
+            GameManager.instance.SetStartingDifficulty(4);
+        }
+    }
+
+    public void HardDifficulty()
+    {
+        if (hard.isOn)
+        {
+            // Debug.LogError("Hard");
+            GameManager.instance.SetStartingDifficulty(8);
+        }
+    }
+
+    public void VolumeChanged()
+    {
+        GameManager.instance.SetVolume(volumeSlider.value);
+
+       
+    }
+    
 }
