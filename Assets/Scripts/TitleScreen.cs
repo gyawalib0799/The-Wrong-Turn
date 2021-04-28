@@ -10,6 +10,7 @@ public class TitleScreen : MonoBehaviour
     [SerializeField] Button startButton;
     [SerializeField] Button settingsButton;
     [SerializeField] Button doneButton;
+    [SerializeField] Toggle instructionToggle;
 
     [SerializeField] Toggle easy;
     [SerializeField] Toggle medium;
@@ -23,6 +24,26 @@ public class TitleScreen : MonoBehaviour
     void Start()
     {
         settingsPanel.SetActive(false);
+
+        volumeSlider.value = GameManager.instance.GetVolume();
+
+        switch(GameManager.instance.GetStartingDifficulty())
+        {
+            case 0:
+                easy.isOn = true;
+                break;
+            case 4:
+                medium.isOn = true;
+                break;
+            case 8:
+                hard.isOn = true;
+                break;
+            default:
+                break;
+        }
+
+        instructionToggle.isOn = GameManager.instance.GetShowInstructionScreen();
+
     }
 
     // Update is called once per frame
@@ -64,6 +85,8 @@ public class TitleScreen : MonoBehaviour
     public void SkipInstructionsToggled()
     {
         skipInstructionScreen = !skipInstructionScreen;
+
+        GameManager.instance.SetShowInstructionScreen(skipInstructionScreen);
     }
 
     public void EasyDifficulty()

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,9 +18,9 @@ public class GameManager : MonoBehaviour
     
     private int currentLevel = 0;
 
-    private float audioVolume;
+    private float audioVolume = 1;
 
-    private bool showInstructionScreen = true;
+    private bool skipInstructionScreen = false;
     
     public static GameManager instance = null;
 
@@ -39,13 +40,15 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         titleAudio = GetComponent<AudioSource>();
+        // titleAudio.Play();
+
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+      
     }
 
     public int GetCurrentLevel()
@@ -60,7 +63,11 @@ public class GameManager : MonoBehaviour
 
     public bool GetShowInstructionScreen()
     {
-        return showInstructionScreen;
+        return skipInstructionScreen;
+    }
+    public void SetShowInstructionScreen(bool showInstructions)
+    {
+        skipInstructionScreen = showInstructions;
     }
 
     public void IncrementCurrentLevel()
@@ -102,5 +109,10 @@ public class GameManager : MonoBehaviour
     public AudioSource GetAudio()
     {
         return titleAudio;
+    }
+
+   public float GetStartingDifficulty()
+    {
+        return startingDifficulty;
     }
 }

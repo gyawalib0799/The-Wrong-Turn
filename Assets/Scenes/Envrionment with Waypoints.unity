@@ -10777,7 +10777,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 874818005}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &874818007
 Camera:
   m_ObjectHideFlags: 0
@@ -11762,10 +11762,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8597541, guid: 8397a8fb15525ed47add45c3973c364f, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8597541, guid: 8397a8fb15525ed47add45c3973c364f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8597541, guid: 8397a8fb15525ed47add45c3973c364f, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8597541, guid: 8397a8fb15525ed47add45c3973c364f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8597541, guid: 8397a8fb15525ed47add45c3973c364f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 156.59012
+      objectReference: {fileID: 0}
+    - target: {fileID: 8597541, guid: 8397a8fb15525ed47add45c3973c364f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 119.611206
+      objectReference: {fileID: 0}
+    - target: {fileID: 8597541, guid: 8397a8fb15525ed47add45c3973c364f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 337.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8597541, guid: 8397a8fb15525ed47add45c3973c364f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 38.2
+      objectReference: {fileID: 0}
     - target: {fileID: 8597544, guid: 8397a8fb15525ed47add45c3973c364f, type: 3}
       propertyPath: target
       value: 
       objectReference: {fileID: 727875599}
+    - target: {fileID: 1057731397, guid: 8397a8fb15525ed47add45c3973c364f, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4192137954385354200, guid: 8397a8fb15525ed47add45c3973c364f,
         type: 3}
       propertyPath: m_Pivot.x
@@ -29042,6 +29078,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GameManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 7721421644816080967, guid: e2716dab800db7044b945498e709e2c5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2716dab800db7044b945498e709e2c5, type: 3}

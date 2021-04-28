@@ -49,7 +49,7 @@ public class WindowZombies : MonoBehaviour
 
         animator.enabled = false;
 
-        UIManager.PlayerDeath += TurnOffZombie;
+       // UIManager.PlayerDeath += TurnOffZombie;
     }
 
     // Update is called once per frame
