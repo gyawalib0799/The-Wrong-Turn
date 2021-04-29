@@ -11,6 +11,8 @@ public class TaxiController : MonoBehaviour
     private bool onceOffDeath;
     public static bool liveGame;
     private AudioSource Screech;
+    public AudioSource crashSource;
+    public AudioClip crashSound;
 
    [SerializeField] float rotSpeed = 1.4f;
    [SerializeField]  float speed = 15.5f;
@@ -62,7 +64,9 @@ public class TaxiController : MonoBehaviour
 
        // UIManager.WrongTurn += ProcessGameOver;
         UIManager.ProperTurnMade += TurnComplete;
-      
+
+        crashSource.clip = this.crashSound;
+
     }
 
     // Update is called once per frame
@@ -74,7 +78,7 @@ public class TaxiController : MonoBehaviour
             StartCoroutine(LeadToDeath());
             if (this.onceOffDeath)
             {
-                Screech.Play();
+                Screech.PlayDelayed(0.3f);
                 this.onceOffDeath = false;
             }
             guidanceEnabled = false;
@@ -129,10 +133,12 @@ public class TaxiController : MonoBehaviour
     {
         //Print the time of when the function is first called.
         Debug.Log("Started Coroutine at timestamp : " + Time.time);
+        crashSource.PlayDelayed(0.8f);
         yield return new WaitForSeconds(1);
         Vector3 direction = this.transform.right;
         this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotSpeed * Time.deltaTime);
         yield return new WaitForSeconds(1f);
+        
         this.transform.eulerAngles = new Vector3(this.transform.eulerAngles.x, this.transform.eulerAngles.y, this.transform.eulerAngles.z);
         this.enabled = false;
 
