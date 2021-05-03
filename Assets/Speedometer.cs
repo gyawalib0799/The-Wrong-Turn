@@ -32,12 +32,13 @@ public class Speedometer : MonoBehaviour
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        speed = GameManager.instance.GetNextLevelSpeed();
     }
 
     private void Update(){
         //speed = target.velocity.magnitude * 3.6f;
 
-        speed = 3;
+        //speed = 3;
         float currentRotation = player.transform.rotation.x;
 
         //Debug.LogError("Current x Rot: " + currentRotation.ToString());
@@ -45,10 +46,19 @@ public class Speedometer : MonoBehaviour
        //     speed -= 0.25f;
 
         if (speedLabel != null)
-            speedLabel.text = ((int)(speed * 22)) + "km/hr";
-        if (arrow != null)
+            speedLabel.text = ((int)(speed)) + "km/hr";
+        if (arrow != null & speed<20)
             arrow.localEulerAngles = 
-                new Vector3(0,0, Mathf.Lerp(minSpeedArrowAngle, maxSpeedArrowAngle, speed/maxSpeed));
+                //new Vector3(0,0, Mathf.Lerp(minSpeedArrowAngle, maxSpeedArrowAngle, speed/maxSpeed));
+                new Vector3(0,0, -7);
+        if (arrow != null & speed>20 & speed<30)
+            arrow.localEulerAngles = 
+                //new Vector3(0,0, Mathf.Lerp(minSpeedArrowAngle, maxSpeedArrowAngle, speed/maxSpeed));
+                new Vector3(0,0, -16);
+        if (arrow != null & speed>30 & speed<40)
+            arrow.localEulerAngles = 
+                //new Vector3(0,0, Mathf.Lerp(minSpeedArrowAngle, maxSpeedArrowAngle, speed/maxSpeed));
+                new Vector3(0,0, -21);
     }
 
 }
