@@ -39,6 +39,7 @@ public class UIManager : MonoBehaviour
 
     public static Action ProperTurnMade;
     public static Action PlayerDeath;
+    
     public static Action<float> LevelUp;
 
     public GameObject deathMonster;
