@@ -8,15 +8,11 @@ public class TaxiController : MonoBehaviour
 {
     int curWP;
     int previousWP;
-    private bool onceOffDeath;
     public static bool liveGame;
-    private AudioSource Screech;
-    public AudioSource crashSource;
-    public AudioClip crashSound;
 
-   [SerializeField] float rotSpeed = 1.4f;
-   [SerializeField]  float speed = 15.5f;
-    float accuracyWP = 5.0f;
+    [SerializeField] float rotSpeed = 1.4f;
+    [SerializeField] float speed = 18f;
+    [SerializeField] float accuracyWP = 7.0f;
 
     bool lastWaypoint = false;
 
@@ -42,51 +38,44 @@ public class TaxiController : MonoBehaviour
 
     //This Action delegate will be raised when the car is entering the intersection
     public static Action<TurnEnum> EnteringIntersection;
-    
+
     // Start is called before the first frame update
     void Start()
     {
-        this.onceOffDeath = true;
-        this.Screech = this.GetComponent<AudioSource>();
         liveGame = true;
         currentPath = GameObject.FindGameObjectWithTag("StartingPath");
-        
+
         wayPoints = currentPath.GetComponentsInChildren<Transform>();
 
         Debug.Log("waypoints length: " + wayPoints.Length.ToString());
 
         curWP = 1;
-        
+
 
         layerMask = LayerMask.GetMask("Terrain");
 
         rb = GetComponent<Rigidbody>();
 
-       // UIManager.WrongTurn += ProcessGameOver;
+        // UIManager.WrongTurn += ProcessGameOver;
         UIManager.ProperTurnMade += TurnComplete;
+        UIManager.LevelUp += LevelUp;
 
-        crashSource.clip = this.crashSound;
 
+        speed = GameManager.instance.GetNextLevelSpeed();
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (!liveGame)
         {
             this.transform.Translate(0, 0, 0);
             StartCoroutine(LeadToDeath());
-            if (this.onceOffDeath)
-            {
-                Screech.PlayDelayed(0.3f);
-                this.onceOffDeath = false;
-            }
             guidanceEnabled = false;
             Vector3 direction = wayPoints[curWP].transform.position - transform.position;
 
 
-
-            this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotSpeed * Time.deltaTime);
+            this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotSpeed * Time.fixedDeltaTime);
 
         }
 
@@ -106,9 +95,9 @@ public class TaxiController : MonoBehaviour
             {
                 Vector3 direction = wayPoints[curWP].transform.position - transform.position;
 
-
-                this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotSpeed * Time.deltaTime);
-
+                // rb.freezeRotation = false;
+                this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotSpeed * Time.fixedDeltaTime);
+                // rb.freezeRotation = true;
             }
         }
         this.transform.Translate(0, 0, Time.deltaTime * speed);
@@ -119,7 +108,9 @@ public class TaxiController : MonoBehaviour
         if (Physics.Raycast(transform.position, -transform.up, out hitInfo, Mathf.Infinity, layerMask))
         {
             //transform.up = hitInfo.normal;
-            transform.up -= (transform.up - hitInfo.normal) * 0.1f;
+            //rb.freezeRotation = false;
+            //  transform.up -= (transform.up - hitInfo.normal) * 0.1f;
+            // rb.freezeRotation = true;
 
         }
 
@@ -133,12 +124,11 @@ public class TaxiController : MonoBehaviour
     {
         //Print the time of when the function is first called.
         Debug.Log("Started Coroutine at timestamp : " + Time.time);
-        crashSource.PlayDelayed(0.8f);
+
         yield return new WaitForSeconds(1);
         Vector3 direction = this.transform.right;
         this.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotSpeed * Time.deltaTime);
         yield return new WaitForSeconds(1f);
-        
         this.transform.eulerAngles = new Vector3(this.transform.eulerAngles.x, this.transform.eulerAngles.y, this.transform.eulerAngles.z);
         this.enabled = false;
 
@@ -148,7 +138,7 @@ public class TaxiController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Intersection"))
+        if (other.gameObject.CompareTag("Intersection"))
         {
             Debug.Log("------------Entering Intersection-------Ready for Turn");
 
@@ -178,10 +168,10 @@ public class TaxiController : MonoBehaviour
             return;
         }
         */
-        
-        
+
+
         int nextTurnInt;
-        
+
         nextTurnInt = Random.Range(0, currentIntersection.GetTurnCount());
         Debug.Log("Next turn: " + nextTurnInt.ToString());
 
@@ -226,8 +216,8 @@ public class TaxiController : MonoBehaviour
 
         }
       */
-       // Debug.Log("Next turn: " + nextTurnInt.ToString());
-        
+        // Debug.Log("Next turn: " + nextTurnInt.ToString());
+
         nextTurn = currentIntersection.GetTurn(nextTurnInt);
 
         if (EnteringIntersection != null)
@@ -236,10 +226,10 @@ public class TaxiController : MonoBehaviour
             EnteringIntersection(nextTurn);
         }
 
-       
-        
+
+
         currentPath = currentIntersection.GetPath(nextTurnInt);
-        
+
 
         wayPoints = currentPath.GetComponentsInChildren<Transform>();
 
@@ -269,11 +259,30 @@ public class TaxiController : MonoBehaviour
 
 
         foreach (Collider child in children)
-            child.gameObject.SetActive(true) ;
+            child.gameObject.SetActive(true);
 
     }
 
-    
+    //adjust speed only it should receive a speed;
+    void LevelUp(float nextSpeed)
+    {
+        //Level rot speed time
+        //  1    1.6  18  2.5
+        //  2    1.8, 20  2.4
+        //  3    2.0, 22  2.2
+        //  4    2.2, 25  2.0
+        //  5    2.4, 27  1.8
+        //  6    2.6, 29  1.6
+        // 7    2.8, 31  1.4
+        // 8    3.0, 33  1.2
+        // 9    3.2  35  1.1
+        // 10   3.4  37  1.0
+
+        //GameManager.instance.AddLevel(); this should be done in ui Manager
+
+        speed = nextSpeed;
+
+    }
 
     void TurnComplete()
     {
