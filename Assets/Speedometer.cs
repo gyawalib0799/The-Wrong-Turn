@@ -45,20 +45,26 @@ public class Speedometer : MonoBehaviour
        // if (currentRotation > 0)
        //     speed -= 0.25f;
 
-        if (speedLabel != null)
-            speedLabel.text = ((int)(speed)) + "km/hr";
-        if (arrow != null & speed<20)
-            arrow.localEulerAngles = 
+        // if (speedLabel != null)
+            //speedLabel.text = (((int)(speed))) + "km/hr";
+            // speedLabel.text = "22 km/hr";
+        if (arrow != null & speed<20){
+            arrow.localEulerAngles = new Vector3(0,0, -13);
+            speedLabel.text = "22 km/hr";
+        }
                 //new Vector3(0,0, Mathf.Lerp(minSpeedArrowAngle, maxSpeedArrowAngle, speed/maxSpeed));
-                new Vector3(0,0, -7);
-        if (arrow != null & speed>20 & speed<30)
-            arrow.localEulerAngles = 
+        if (arrow != null & speed>20 & speed<30){
+            arrow.localEulerAngles = new Vector3(0,0, -33);
                 //new Vector3(0,0, Mathf.Lerp(minSpeedArrowAngle, maxSpeedArrowAngle, speed/maxSpeed));
-                new Vector3(0,0, -16);
-        if (arrow != null & speed>30 & speed<40)
-            arrow.localEulerAngles = 
+            speedLabel.text = "50 km/hr";
+        }        
+        if (arrow != null & speed>30 ){
+            arrow.localEulerAngles = new Vector3(0,0, -52);
+            speedLabel.text = "81 km/hr";
+        }
+            
                 //new Vector3(0,0, Mathf.Lerp(minSpeedArrowAngle, maxSpeedArrowAngle, speed/maxSpeed));
-                new Vector3(0,0, -21);
+                
     }
 
 }
