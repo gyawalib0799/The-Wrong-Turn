@@ -10143,6 +10143,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7721421644816080964, guid: e2716dab800db7044b945498e709e2c5,
+        type: 3}
+      propertyPath: intersectionsBeforeIncrease
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7721421644816080965, guid: e2716dab800db7044b945498e709e2c5,
         type: 3}
       propertyPath: m_RootOrder
