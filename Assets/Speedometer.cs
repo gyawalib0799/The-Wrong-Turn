@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class Speedometer : MonoBehaviour
 {
     public Rigidbody target;
-    public float maxSpeed = 22f;
+    public float maxSpeed = 0;
 
 
     //1.4  18 t = 2.5
@@ -25,46 +25,28 @@ public class Speedometer : MonoBehaviour
     [Header("UI")]
     public Text speedLabel;
     public RectTransform arrow;
-    private float speed = 15.5f;
+    private float speed = 0;
 
     private GameObject player;
 
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        speed = GameManager.instance.GetNextLevelSpeed();
+        speed = 0;
     }
 
-    private void Update(){
-        //speed = target.velocity.magnitude * 3.6f;
+    private void Update()
+    {
+        // 3.6f to convert in kilometers
+        // ** The speed must be clamped by the car controller **
+        // speed = target.velocity.magnitude * 3.6f;
+        speed = GameManager.instance.GetNextLevelSpeed();
 
-        //speed = 3;
-        float currentRotation = player.transform.rotation.x;
-
-        //Debug.LogError("Current x Rot: " + currentRotation.ToString());
-       // if (currentRotation > 0)
-       //     speed -= 0.25f;
-
-        // if (speedLabel != null)
-            //speedLabel.text = (((int)(speed))) + "km/hr";
-            // speedLabel.text = "22 km/hr";
-        if (arrow != null & speed<20){
-            arrow.localEulerAngles = new Vector3(0,0, -13);
-            speedLabel.text = "22 km/hr";
-        }
-                //new Vector3(0,0, Mathf.Lerp(minSpeedArrowAngle, maxSpeedArrowAngle, speed/maxSpeed));
-        if (arrow != null & speed>20 & speed<30){
-            arrow.localEulerAngles = new Vector3(0,0, -33);
-                //new Vector3(0,0, Mathf.Lerp(minSpeedArrowAngle, maxSpeedArrowAngle, speed/maxSpeed));
-            speedLabel.text = "50 km/hr";
-        }        
-        if (arrow != null & speed>30 ){
-            arrow.localEulerAngles = new Vector3(0,0, -52);
-            speedLabel.text = "81 km/hr";
-        }
-            
-                //new Vector3(0,0, Mathf.Lerp(minSpeedArrowAngle, maxSpeedArrowAngle, speed/maxSpeed));
-                
+        if (speedLabel != null)
+            speedLabel.text = ((int)speed) + "km/hr";
+        if (arrow != null)
+            arrow.localEulerAngles =
+                new Vector3(0, 0, Mathf.Lerp(minSpeedArrowAngle, maxSpeedArrowAngle, speed/(maxSpeed*4)));
     }
 
 }
